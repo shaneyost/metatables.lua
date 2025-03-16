@@ -1,2 +1,2 @@
 # metatables.lua
-Learning Metatables in Lua
+A place for me to learn more about metatables in Lua.
