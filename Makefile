@@ -11,4 +11,4 @@ format:
 syntax:
 	find . -type f -name "*.lua" -exec luac -p {} +
 docs:
-	nvim --headless -c "luafile scripts/generate-docs.lua" -c "q"
+	nvim --headless -c "luafile utils/generate-docs.lua" -c "q"
