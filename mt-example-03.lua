@@ -12,7 +12,6 @@ local utils = require("utils.utils")
 --- We create a function using colon notation. Lua automatically stores
 --- the function in Dog when using this notation. In addition, colon notation
 --- will pass self (e.g. Dog.new(Dog))
---- after the function to confirm this.
 ---
 --- The function creates an empty table and assigns a metatable to it with the
 --- metamethod __index. Notice we assign the value self to it. Because 'self' 
