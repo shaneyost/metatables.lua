@@ -3,7 +3,7 @@ local utils = require("utils.utils")
 
 --- Before I can describe, in my own words, what a metatable is I should first
 --- understand the core significance of a Table in Lua. Only then can I move
---- confidently into the subject of metatables. 
+--- confidently into the subject of metatables.
 
 --- A table in Lua is the only built-in complex data structure. It serves as
 --- arrays, dictionaries, objects and even class-like structures. Unlike many
@@ -24,7 +24,7 @@ local utils = require("utils.utils")
 --- <
 
 --- Tables allow Lua to be expressive but lightweight. They can grow and shrink
---- as needed. When assigning a table to a variable I'm assigning a reference 
+--- as needed. When assigning a table to a variable I'm assigning a reference
 --- "not a copy"
 ---
 ---@usage >lua
@@ -49,18 +49,18 @@ local utils = require("utils.utils")
 --- Tables are the heart of Lua providing the building blocks needed for
 --- advanced behavior while still remaining flexible, lightweight and powerful.
 ---
---- A 'very simple' example for me to think about before diving into the 
+--- A 'very simple' example for me to think about before diving into the
 --- subject of metatables.
 ---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
 sometable = { "1", "2", "4" }
-utils.PT(getmetatable(sometable) or {"no metatable found"})
+utils.PT(getmetatable(sometable) or { "no metatable found" })
 setmetatable(sometable, {
     __index = function(table, key)
         print("Access on missing key '" .. key .. "'")
         return nil
     end,
 })
-utils.PT(getmetatable(sometable) or {"no metatable found"})
+utils.PT(getmetatable(sometable) or { "no metatable found" })
 
 for i = 1, 5 do
     print(sometable[i])

@@ -6,7 +6,7 @@ function Utils.PT(tbl, indent)
     for k, v in pairs(tbl) do
         if type(v) == "table" then
             print(prefix .. tostring(k) .. " = {")
-            Utils.PT(v, indent + 1)  -- Recursively print nested tables
+            Utils.PT(v, indent + 1) -- Recursively print nested tables
             print(prefix .. "}")
         else
             print(prefix .. tostring(k) .. " = " .. tostring(v))

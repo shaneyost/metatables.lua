@@ -1,7 +1,7 @@
 #!/usr/bin/env luajit
 local utils = require("utils.utils")
 
---- This is a good example to understand the lookup process that Lua carries 
+--- This is a good example to understand the lookup process that Lua carries
 --- out when a key is not found in a table.
 ---
 --- Step (1)
@@ -14,13 +14,13 @@ local utils = require("utils.utils")
 --- will pass self (e.g. Dog.new(Dog))
 ---
 --- The function creates an empty table and assigns a metatable to it with the
---- metamethod __index. Notice we assign the value self to it. Because 'self' 
+--- metamethod __index. Notice we assign the value self to it. Because 'self'
 --- is Dog in this case any accesses on obj where key does not exist will go to
 --- Dog to lookup the key.
 ---
 --- Step (3)
 --- Same thing happens here. We create another function using colon notation
---- and Lua, again, automatically stores the function in Dog. 'self' is also 
+--- and Lua, again, automatically stores the function in Dog. 'self' is also
 --- passed to speak().
 ---
 --- Step (4)
@@ -29,8 +29,8 @@ local utils = require("utils.utils")
 ---
 --- Step (5)
 --- mydog does not have a speak() function in it but it does have a metatable.
---- When an access occurs on a key that does not exist Lua goes to the 
---- metatable and looks for the metamethod __index. __index is assigned the 
+--- When an access occurs on a key that does not exist Lua goes to the
+--- metatable and looks for the metamethod __index. __index is assigned the
 --- value of 'self'. I know, from earlier, that 'self' is Dog so Lua goes to
 --- Dog and finds the function speak.
 ---
@@ -40,7 +40,7 @@ local utils = require("utils.utils")
 --- calling speak())
 ---
 --- Now what happens in speak? Remember what I just said, that self is actually
---- mydog not Dog (e.g. Dog.speak(mydog)). The self inside the function is 
+--- mydog not Dog (e.g. Dog.speak(mydog)). The self inside the function is
 --- whatever object called the function. Inside speak we now run self.sound but
 --- wait ... mydog.sound does not exist. So what happens. The same steps occur
 --- earlier where Lua goes to the metatable metamethod __index for missing keys
