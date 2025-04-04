@@ -7,7 +7,16 @@
 --- - These metamethods __pairs, __ipairs are not available in luajit
 --- - Nothing is stopping someone from accessing mt to get access to t
 --- - We could probably clean this up a bit
---- At what point do we say enough is enough though?
+---
+--- At what point do we say enough is enough though? I think I'm right to 
+--- express tension in going to extreme lengths. Afterall, Lua is meant to be
+--- simple and adding layered protection negates that to some extent.
+---
+--- However, a part of me feels adding some protection is not unreasonable 
+--- especially if what i'm building is a plugin or API. At the very least it
+--- serves as a defensive programming measure in development. I am human after
+--- all. Maybe explore a solution that would lock this down in next example.
+---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
 local function readOnly(t)
     local proxy = {}
     local mt = {
@@ -29,3 +38,4 @@ local days = readOnly({ "monday", "tuesday", "friday" })
 for k, v in pairs(days) do
     print(k, v)
 end
+--minidoc_afterlines_end

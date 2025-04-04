@@ -1,11 +1,15 @@
 #!/usr/bin/env lua
-
---- Here's my final version that I feel happy about. I'm going to remove the
---- __metatable = false. I don't feel it's worth it as reasons discussed in
---- other file.
----
 --- The __tostring method here is sufficient for most use cases. There are
 --- limitations to this implementation but I'm quite happy with this.
+---
+---@usage >lua
+---     local days = read_only({ "mon", "tue", "wed" })
+---     print(days)
+---     local blob = read_only({ boo = "boo", bar = "bar", foo = "foo" })
+---     print(blob)
+--- <
+---
+--@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
 local function read_only(t)
     return setmetatable({}, {
         __index = t,
@@ -19,11 +23,7 @@ local function read_only(t)
             end
             return table.concat(output, ", ")
         end,
+        __metatable = false,
     })
 end
-
-local days = read_only({ "mon", "tue", "wed" })
-print(days)
-
-local blob = read_only({ boo = "boo", bar = "bar", foo = "foo" })
-print(blob)
+--minidoc_afterlines_end
