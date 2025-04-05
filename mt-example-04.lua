@@ -1,5 +1,5 @@
 #!/usr/bin/env lua
-
+local MT_EXAMPLE_04 = {}
 --- Ok so here's an example of how we could implement a read only table. We
 --- can utilize these metamethods __pairs, __ipairs.
 ---
@@ -17,7 +17,7 @@
 --- serves as a defensive programming measure in development. I am human after
 --- all. Maybe explore a solution that would lock this down in next example.
 ---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
-local function readOnly(t)
+function MT_EXAMPLE_04.readOnly(t)
     local proxy = {}
     local mt = {
         __index = t,
@@ -34,7 +34,7 @@ local function readOnly(t)
     setmetatable(proxy, mt)
     return proxy
 end
-local days = readOnly({ "monday", "tuesday", "friday" })
+local days = MT_EXAMPLE_04.readOnly({ "monday", "tuesday", "friday" })
 for k, v in pairs(days) do
     print(k, v)
 end

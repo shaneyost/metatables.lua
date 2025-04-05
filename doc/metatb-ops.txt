@@ -56,19 +56,19 @@ advanced behavior while still remaining flexible, lightweight and powerful.
 A 'very simple' example for me to think about before diving into the
 subject of metatables.
 >lua
-  sometable = { "1", "2", "4" }
-  utils.PT(getmetatable(sometable) or { "no metatable found" })
-  setmetatable(sometable, {
-      __index = function(table, key)
-          print("Access on missing key '" .. key .. "'")
-          return nil
-      end,
-  })
-  utils.PT(getmetatable(sometable) or { "no metatable found" })
-
-  for i = 1, 5 do
-      print(sometable[i])
-  end
+  local sometable = { "1", "2", "4" }
+  -- utils.PT(getmetatable(sometable) or { "no metatable found" })
+  -- setmetatable(sometable, {
+  --     __index = function(_, key)
+  --         print("Access on missing key '" .. key .. "'")
+  --         return nil
+  --     end,
+  -- })
+  -- utils.PT(getmetatable(sometable) or { "no metatable found" })
+  --
+  -- for i = 1, 5 do
+  --     print(sometable[i])
+  -- end
 <
 
 ==============================================================================
@@ -222,5 +222,88 @@ says the dog. :)
   local mydog = Dog:new()
   mydog:speak()
 <
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                      *MT_EXAMPLE_04.readOnly()*
+                         `MT_EXAMPLE_04.readOnly`({t})
+Ok so here's an example of how we could implement a read only table. We
+can utilize these metamethods __pairs, __ipairs.
+
+A couple issues I don't like about this are ...
+- These metamethods __pairs, __ipairs are not available in luajit
+- Nothing is stopping someone from accessing mt to get access to t
+- We could probably clean this up a bit
+
+At what point do we say enough is enough though? I think I'm right to 
+express tension in going to extreme lengths. Afterall, Lua is meant to be
+simple and adding layered protection negates that to some extent.
+
+However, a part of me feels adding some protection is not unreasonable 
+especially if what i'm building is a plugin or API. At the very least it
+serves as a defensive programming measure in development. I am human after
+all. Maybe explore a solution that would lock this down in next example.
+>lua
+  function MT_EXAMPLE_04.readOnly(t)
+      local proxy = {}
+      local mt = {
+          __index = t,
+          __newindex = function(t, k, v)
+              error("attempt to update a read-only table", 2)
+          end,
+          __pairs = function()
+              return pairs(t)
+          end,
+          __ipairs = function()
+              return ipairs(t)
+          end,
+      }
+      setmetatable(proxy, mt)
+      return proxy
+  end
+  local days = MT_EXAMPLE_04.readOnly({ "monday", "tuesday", "friday" })
+  for k, v in pairs(days) do
+      print(k, v)
+  end
+<
+
+==============================================================================
+------------------------------------------------------------------------------
+                                                      *MT_EXAMPLE_05.readOnly()*
+                         `MT_EXAMPLE_05.readOnly`({t})
+We can use __metatable to prevent access to the mt. This, to some extent,
+would lock it down. The debug library (if available) could bypass this.
+>lua
+  function MT_EXAMPLE_05.readOnly(t)
+      local proxy = {}
+      setmetatable(proxy, {
+          __index = t,
+          __newindex = function()
+              error("error read only")
+          end,
+          __metatable = false,
+      })
+      return proxy
+  end
+  local days = MT_EXAMPLE_05.readOnly({ "mon", "tue", "wed" })
+  print(days[1])
+  print(days[2])
+  print(days[3])
+  days[1] = "foo"
+<
+
+==============================================================================
+------------------------------------------------------------------------------
+The __tostring method here is sufficient for most use cases. There are
+limitations to this implementation but I'm quite happy with this.
+
+Usage ~
+>lua
+    local days = read_only({ "mon", "tue", "wed" })
+    print(days)
+    local blob = read_only({ boo = "boo", bar = "bar", foo = "foo" })
+    print(blob)
+<
+
 
  vim:tw=78:ts=8:noet:ft=help:norl:

@@ -1,2 +1,4 @@
-Dog	metatables.txt	/*Dog*
-sometable	metatables.txt	/*sometable*
+Dog	metatb-ops.txt	/*Dog*
+MT_EXAMPLE_04.readOnly()	metatb-ops.txt	/*MT_EXAMPLE_04.readOnly()*
+MT_EXAMPLE_05.readOnly()	metatb-ops.txt	/*MT_EXAMPLE_05.readOnly()*
+sometable	metatb-ops.txt	/*sometable*

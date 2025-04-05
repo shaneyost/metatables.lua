@@ -52,17 +52,17 @@ local utils = require("utils.utils")
 --- A 'very simple' example for me to think about before diving into the
 --- subject of metatables.
 ---@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
-sometable = { "1", "2", "4" }
-utils.PT(getmetatable(sometable) or { "no metatable found" })
-setmetatable(sometable, {
-    __index = function(table, key)
-        print("Access on missing key '" .. key .. "'")
-        return nil
-    end,
-})
-utils.PT(getmetatable(sometable) or { "no metatable found" })
-
-for i = 1, 5 do
-    print(sometable[i])
-end
+local sometable = { "1", "2", "4" }
+-- utils.PT(getmetatable(sometable) or { "no metatable found" })
+-- setmetatable(sometable, {
+--     __index = function(_, key)
+--         print("Access on missing key '" .. key .. "'")
+--         return nil
+--     end,
+-- })
+-- utils.PT(getmetatable(sometable) or { "no metatable found" })
+--
+-- for i = 1, 5 do
+--     print(sometable[i])
+-- end
 --minidoc_afterlines_end

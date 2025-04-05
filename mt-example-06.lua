@@ -1,4 +1,5 @@
 #!/usr/bin/env lua
+local MT_EXAMPLE_06 = {}
 --- The __tostring method here is sufficient for most use cases. There are
 --- limitations to this implementation but I'm quite happy with this.
 ---
@@ -10,7 +11,7 @@
 --- <
 ---
 --@eval return MiniDoc.afterlines_to_code(MiniDoc.current.eval_section)
-local function read_only(t)
+function MT_EXAMPLE_06.read_only(t)
     return setmetatable({}, {
         __index = t,
         __newindex = function(_, k, v)
